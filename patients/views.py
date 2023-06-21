@@ -77,17 +77,17 @@ def obstetric_historyformone(request):
    
         if form.is_valid():
             form.save()
-            return redirect('obstetrichhistoryformtwo')
+            return redirect('obstetric_historyformtwo')
         
     else:
         form = obstetrichistoryformone()
 
-    return render(request, 'obsterichhistoryformone.html', {'form':form})
+    return render(request, 'obstetric_historyformone.html', {'form':form})
     
 
 def obstetric_historyformtwo(request):
     if request.method == 'POST':
-        form = obstetric_historyformtwo(request.POST)
+        form = obstetrichistoryformtwo(request.POST)
 
         if form.is_valid():
             form.save()
@@ -167,11 +167,25 @@ def payment_form(request):
 
         if form.is_valid():
             form.save()
-            return redirect('obstetrichistoryone')
+            return redirect('obstetric_historyformone')
     else:
         form = paymentform()
 
     return render(request, 'paymentform.html', {'form':form})
+
+def payment_form(request):
+    if request.method == 'POST':
+        form = paymentform(request.POST)
+
+        if form.is_valid():
+            payment_type = form.cleaned_data['payment_type']
+            Payment.objects.create(payment_type=payment_type)
+            return redirect('obstetric_historyformone')
+    else:
+        form = paymentform()
+
+    return render(request, 'paymentform.html', {'form': form})
+
 
 def nextofkinform(request):
     if request.method == 'POST':

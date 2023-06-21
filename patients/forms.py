@@ -63,7 +63,7 @@ class obstetrichistoryformthree(ModelForm):
 class obstetrichistoryformfour(ModelForm):
     class Meta:
         model = Obstetric_history
-        fields = ['illness','date','treatment','others']
+        fields = ['illness','obstetric_date','treatment','others']
 
 class obstetrichistoryformfive(ModelForm):
     class Meta:
@@ -82,7 +82,7 @@ class obstetrichistoryformsix(ModelForm):
 class  antenatalrecordsform(ModelForm):
     class Meta:
         model = antenatal_records
-        fields = ['visit_number','date_records','weight_records','maturity','fundal_height','presentation','urine_analysis','palor','lie','fetal_heart_rate','fetal_movement','remarks','next_visit','sign','urine_analysis','engagement','blood_pressure']
+        fields = ['visit_number','antenatal_date_records','weight_records','maturity','fundal_height','presentation','urine_analysis','palor','lie','fetal_heart_rate','fetal_movement','remarks','next_visit','sign','urine_analysis','engagement','blood_pressure']
 
 class physicalexaminationsform(ModelForm):
     class Meta:
@@ -109,7 +109,7 @@ class vitalsignsform(ModelForm):
 class reportlabouroneform(ModelForm):
     class Meta:
         model = report_labourone
-        fields = ['date_report_labour','report','began','membranes_ruptured','full_dilation','baby_born','placenta_expelled','amount_of_loss','date','hours','date_labour','drug_labour','time_labour','given_by','remarks']
+        fields = ['date_report_labour','report','began','membranes_ruptured','full_dilation','baby_born','placenta_expelled','amount_of_loss','duration_date','hours','date_labour','drug_labour','time_labour','given_by','remarks']
         
 class reportlabourtwoform(ModelForm):
     class Meta:
@@ -134,7 +134,7 @@ class vitalsignsobservationchart(ModelForm):
 class preanaestheticassementformone(ModelForm):
     class Meta:
         model = Pre_anaesthetic
-        fields = ['date','operation','emergency','elective','past_history','present_condition','regular_condition','allergies','airway_assessment','heart_rate','blood_pressure','heart_sounds','pallor','edema','other']
+        fields = ['Pre_anaesthetic_date','operation','emergency','elective','past_history','present_condition','regular_condition','allergies','airway_assessment','heart_rate','blood_pressure','heart_sounds','pallor','edema','other']
 
 class preanaestheticassementformtwo(ModelForm):
     class Meta:

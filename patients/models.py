@@ -1,7 +1,22 @@
 from django.db import models
 #from django-signature import signaturefield
 from jsignature.fields import JSignatureField
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils import timezone
+from django.core.exceptions import ValidationError
+from datetime import datetime, date
 
+today = date.today()
+
+def lmpdate_validator(LMP):
+    if LMP > today:
+        raise ValidationError("lmp cannot be a future date")
+    
+
+def edddate_validator(EDD):
+    if EDD > today:
+        raise ValidationError("edd cannot be a future date")    
+    
 # Create your models here.
 class CustomUser(models.Model):
     name = models.CharField(max_length=100, null=True)
@@ -32,16 +47,19 @@ class NextofKin(models.Model):
     patient = models.ForeignKey(Patient, max_length=100, on_delete=models.CASCADE)
 
 class Payment(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='payments')
+    # patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='payments', null=True)
     payment_type = models.CharField(max_length=50, null=True)
 
 
 
 class Obstetric_history(models.Model):
-    LMP = models.DateField(max_length=10)
-    EDD = models.DateField(max_length=10)
-    GRAVID = models.CharField(max_length=30, null=True)
-    PARITY = models.IntegerField(null=True)
+    LMP = models.DateField(validators=[lmpdate_validator], null=True)
+    EDD = models.DateField(validators=[edddate_validator], null=True)
+    GRAVID = models.BooleanField(default=False)
+    PARITY = models.IntegerField(validators=[
+            MinValueValidator(1),
+            MaxValueValidator(12)
+        ], null=True)
     date_of_birth = models.IntegerField(null=True)
     sex = models.CharField(max_length=10, null=True)
     place_of_birth = models.CharField(max_length=30, null=True)
@@ -58,7 +76,7 @@ class Obstetric_history(models.Model):
     regularity = models.CharField(max_length=20, null=True)
     flow = models.CharField(max_length=20, null=True)
     present_pregnancy = models.CharField(max_length=20, null=True)
-    date_of_quickening = models.DateField(max_length=10)
+    date_of_quickening = models.DateField(null=True)
     gestation_on_firstvisit = models.IntegerField(null=True)
     clinical_estimation =models.CharField(max_length=100, null=True)
     complaints = models.CharField(max_length=100, null=True)
@@ -72,10 +90,10 @@ class Obstetric_history(models.Model):
     blood_transfusion = models.BooleanField(null=True)
     recent_drugs_taken = models.CharField(max_length=30, null=True)
     admitting_officer = models.CharField(max_length=30, null=True)
-    signature = JSignatureField()
+    signature = JSignatureField(null=True)
     time = models.TimeField(null=True)
     illness = models.BooleanField(null=True)
-    date = models.DateField()
+    obstetric_date = models.DateField(null=True)
     treatment = models.CharField(max_length=50, null=True)
     others =models.CharField(max_length=100, null=True)
     condition = models.CharField(max_length=100 ,null=True)
@@ -85,7 +103,7 @@ class Obstetric_history(models.Model):
     sample = models.CharField(max_length=100, null=True)
     heart_did = models.BooleanField(null=True)
     relation = models.CharField(max_length=100 , null=True)
-    date = models.DateField()
+    history_date = models.DateField(null=True)
     smoking = models.BooleanField(null=True)
     alcohol = models.BooleanField(null=True)
     sports = models.CharField(max_length=100, null=True)
@@ -108,14 +126,14 @@ class past_medical_and_surgical_history (models.Model):
     diabetes = models.BooleanField(default=False)
     essen_hypert = models.BooleanField(default=False)
     heart = models.BooleanField(default=False)
-    date = models.DateField()
+    medical_date = models.DateField()
     treatment = models.TextField(blank=True)
     others = models.TextField(blank=True)
 
 class antenatal_records(models.Model):
     family_history = models.ForeignKey(Obstetric_history, on_delete=models.CASCADE)
     visit_number = models.PositiveIntegerField()
-    date_records = models.DateField()
+    antenatal_date_records = models.DateField()
     weight_records = models.FloatField(null=True)
     maturity = models.CharField(max_length=100, null=True)
     urine_analysis = models.CharField(max_length=100, null=True)
@@ -204,7 +222,7 @@ class report_labourone(models.Model):
     baby_born = models.DateTimeField()
     placenta_expelled = models.DateTimeField()
     amount_of_loss = models.DecimalField(max_digits=5, decimal_places=2)
-    date = models.DateField()
+    duration_date = models.DateField()
     hours = models.PositiveIntegerField()
     #duration_of_labour(models.Model):
     date_labour = models.DateField()
@@ -250,7 +268,7 @@ class after_delivery(models.Model):
 class Vital_Chart(models.Model):
     name = models.CharField(max_length=100, null=True)
     ip_number = models.CharField(max_length=20, null=True)
-    date = models.DateField()
+    vital_date = models.DateField()
     time = models.TimeField()
     temperature = models.DecimalField(max_digits=5, decimal_places=2)
     blood_pressure = models.CharField(max_length=20)
@@ -258,7 +276,7 @@ class Vital_Chart(models.Model):
     respiratory_rate = models.PositiveIntegerField()
 
 class Pre_anaesthetic(models.Model):
-    date = models.DateField()
+    Pre_anaesthetic_date = models.DateField()
     operation = models.CharField(max_length=100, null=True)
     emergency = models.BooleanField(default=False)
     elective = models.BooleanField(default=False)
@@ -285,7 +303,7 @@ class Pre_anaesthetic(models.Model):
     anesthetist_sign = JSignatureField(null=True)
 
 class Magnesium_sulphate(models.Model):
-    date = models.DateField()
+    Magnesium_sulphate_date = models.DateField()
     time = models.TimeField()
     temperature = models.DecimalField(max_digits=5, decimal_places=2)
     pulse = models.PositiveIntegerField()
@@ -305,7 +323,7 @@ class Pre_operationone(models.Model):
     ward = models.CharField(max_length=100, null=True)
     doctor = models.CharField(max_length=100, null=True)
     dept = models.CharField(max_length=100, null=True)
-    date = models.DateField()
+    Pre_operationone_date = models.DateField()
     anesthetist = models.CharField(max_length=100, null=True)
 
 class Pre_operationtwo(models.Model):
@@ -395,7 +413,7 @@ class anaesthetic_record(models.Model):
     anaesthetists = models.CharField(max_length=100, null=True)
     age = models.IntegerField(blank=True, null=True)
     surgeons = models.CharField(max_length=100, blank=True)
-    date = models.DateField(blank=True, null=True)
+    record_date = models.DateField(blank=True, null=True)
     sex = models.CharField(max_length=10, blank=True)
     premedication_type = models.CharField(max_length=100, null=True)
     premedication_time_given = models.CharField(max_length=50, null=True)
