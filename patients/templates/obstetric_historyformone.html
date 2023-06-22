@@ -11,6 +11,10 @@
 <body>
     <form method="post" action="{% url 'obstetric_historyformone' %}">
         {% csrf_token %} 
+        {% for field in obstetrichistoryformone %}
+          {{ field.name }}
+          {{ field.errors }}
+        {% endfor %}
         <div class="container">
             <h3 class="text-dark">obstetric_historyformone:</h3>
 
@@ -38,16 +42,35 @@
                             <input type="date" class="ms-2 form-control" name="EDD" required>
                         </div>
                       </div>
-                      <div class="row mt-2 ">
-                        <div class="form-check d-flex justify-content-end">
-                      </div>
-                        <div class="form-check">
-                          <label class="form-check-label" for="gravid">GRAVID</label>
-                          
+                      
+                      <div class="row mt-2">
+                        <!-- <div class="form-check">
                           <input class="form-check-input ms-2" name="GRAVID" type="checkbox" id="gravid">
-                          
+                          <label class="form-check-label" for="gravid">GRAVID</label>
+                        </div> -->
+                        <div class="container">
+                          <label for="GRAVID">GRAVID</label>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="GRAVID" value="yes" id="gravid1">
+                            <label for="flexRadioDefault1" class="form-check-label">
+                              Yes
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="GRAVID" value="no"  id="gravid2">
+                            <label class="form-check-label" for="flexRadioDefault2">
+                              No 
+                            </label>
+                          </div>
+
                         </div>
+                        <!-- <div class="mb-3 form-check">
+                          <input type="checkbox" class="form-check-input" id="gravid" name="GRAVID" value="Y">
+                          <label class="form-check-label" for="gravid">GRAVID</label>
+                        </div> -->
+                        
                       </div>
+                        
                       <div class="row mt-2">
                         <div class="input-group mb-3">
                             <label for="parity">Parity</label>
@@ -62,7 +85,7 @@
                     </div>
                     
                   </div>
-                  
+                </div>
             
                 
                 

@@ -87,7 +87,7 @@ def obstetric_historyformone(request):
 
 def obstetric_historyformtwo(request):
     if request.method == 'POST':
-        form = obstetrichistoryformtwo(request.POST)
+        form = obstetrichhistoryformtwo(request.POST)
 
         if form.is_valid():
             form.save()

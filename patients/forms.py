@@ -46,33 +46,33 @@ class nextofkinform(ModelForm):
 
 class obstetrichistoryformone(ModelForm):
     class Meta:
-        model = Obstetric_history
+        model = Obstetric_historyformone
         fields = ['LMP','EDD','GRAVID','PARITY']
 
 class obstetrichhistoryformtwo(ModelForm):
     class Meta:
-        model = Obstetric_history
+        model = Obstetric_historyformtwo
         fields = ['date_of_birth','sex','place_of_birth','weight','length_labour','Mode_of_delivery','pueperium','complications','feeding']
 
 
 class obstetrichistoryformthree(ModelForm):
     class Meta:
-        model = Obstetric_history
+        model = Obstetric_historyformthree
         fields = ['menarche','cycle','length_menstrual','regularity','flow','present_pregnancy','date_of_quickening','gestation_on_firstvisit','clinical_estimation','complaints','length_pregnancy','pain','bleeding','vomiting','frequency','operations','blood_transfusion','recent_drugs_taken','signature','time']
 
 class obstetrichistoryformfour(ModelForm):
     class Meta:
-        model = Obstetric_history
+        model = Obstetric_historyformfour
         fields = ['illness','obstetric_date','treatment','others']
 
 class obstetrichistoryformfive(ModelForm):
     class Meta:
-        model = Obstetric_history
+        model = Obstetric_historyformfive
         fields = ['twin','TB','essen_hypert','sample','heart_did','relation','smoking','alcohol','sports']
 
 class obstetrichistoryformsix(ModelForm):
     class Meta:
-        model = Obstetric_history
+        model = Obstetric_historyformsix
         fields = ['blood_group','rhesus','hb','rbs','vdrl','serology','hep_b','urinalysis','clinics_attended','number_of_visits']
         widgets = {
             'blood_group': forms.Select(attrs={'class': 'form-control'}),
